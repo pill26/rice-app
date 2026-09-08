@@ -1,9 +1,18 @@
+import sys
+import subprocess
+import os
+# 强制使用 headless 版本的 OpenCV，避免服务器环境 libGL 依赖问题
+os.environ["OPENCV_VIDEOIO_PRIORITY_MSMF"] = "0"
+try:
+    import cv2
+except Exception:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "opencv-python-headless", "--force-reinstall", "-q"])
+    import cv2
+
 import streamlit as st
-import cv2
 import numpy as np
 import pandas as pd
 from ultralytics import YOLO
-import os
 from PIL import Image
 import io
 
@@ -287,3 +296,4 @@ st.markdown("""
 - 保持光照均匀，背景干净
 - 首次使用请务必校准像素换算比例，否则尺寸数据不准确
 """)
+
